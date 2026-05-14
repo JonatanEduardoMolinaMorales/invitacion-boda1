@@ -14,7 +14,8 @@ html {
 }
 
 body {
-background: linear-gradient(135deg, #f8f5f0, #eae3d9);
+    margin: 0;
+    background: linear-gradient(135deg, #f8f5f0, #eae3d9);
     background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
     background-blend-mode: multiply;
 }
@@ -22,24 +23,23 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
 /* ================= PORTADA ================= */
 .hero {
     height: 100vh;
-    background-image: url('foto.jpeg');
+    background-image: url('foto.jpeg'); /* 🔥 IMPORTANTE */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; /* 🔥 agregado */
+    position: relative;
 }
 
-/* 🔥 TEXTO ARRIBA */
+/* TEXTO ARRIBA */
 .save-date {
     position: absolute;
     top: 40px;
     width: 100%;
     text-align: center;
     color: white;
-    z-index: 10;
 }
 
 .save-date h1 {
@@ -47,13 +47,9 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
     font-size: 45px;
     letter-spacing: 5px;
     margin: 0;
-    color: white;
-
-    /* ✨ sombra elegante */
-    text-shadow:
-        0px 2px 6px rgba(0,0,0,0.6),
-        0px 0px 15px rgba(255,255,255,0.3);
+    text-shadow: 0px 2px 6px rgba(0,0,0,0.6);
 }
+
 .save-date::after {
     content: "";
     display: block;
@@ -61,19 +57,18 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
     height: 2px;
     background: white;
     margin: 10px auto 0;
-    opacity: 0.8;
-}
-.overlay {
-    text-align: center;
-    color: white;
 }
 
-.overlay h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 40px;
-    letter-spacing: 2px;
+/* OSCURECER IMAGEN (MEJORA VISUAL) */
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
 }
 
+/* TEXTO ABAJO */
 .scroll {
     position: absolute;
     bottom: 30px;
@@ -82,7 +77,7 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
     letter-spacing: 3px;
 }
 
-/* ================= SEGUNDA PANTALLA ================= */
+/* ================= SEGUNDA SECCIÓN ================= */
 .container {
     display: flex;
     height: 100vh;
@@ -153,37 +148,50 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
     font-weight: bold;
 }
 
+/* FOOTER */
 .footer {
     font-size: 12px;
     letter-spacing: 2px;
     color: gray;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        text-align: center;
+    }
+
+    .left {
+        text-align: center;
+    }
+
+    .left h1 {
+        font-size: 50px;
+    }
+
+    .line {
+        display: none;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= PORTADA ================= -->
+<!-- PORTADA -->
 <section class="hero">
 
-    <!-- 🔥 TEXTO ARRIBA -->
     <div class="save-date">
         <h1>SAVE THE DATE</h1>
     </div>
 
-    <!-- TUS IMÁGENES (NO SE TOCAN) -->
-    <img src="foto.jpeg">
-    <img src="foto.jpeg">
-    <img src="foto.jpeg">
-
-    <div class="overlay">
-        <h1></h1>
-    </div>
-
     <div class="scroll">DESLIZA ↓</div>
+
 </section>
 
-<!-- ================= SEGUNDA SECCIÓN ================= -->
+<!-- SEGUNDA SECCIÓN -->
 <section class="container">
 
     <div class="left">
@@ -195,15 +203,16 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
     <div class="line"></div>
 
     <div class="right">
-        <p class="small">¡RECERVA LA FECHA!</p>
+        <p class="small">¡RESERVA LA FECHA!</p>
 
         <p class="fecha">10 · Octubre · 2026</p>
-        <p class="lugar">Ciudad de Guatemala </p>
+        <p class="lugar">Ciudad de Guatemala</p>
 
         <div class="contador">
             <div><span id="dias"></span><br>DÍAS</div>
             <div><span id="horas"></span><br>HORAS</div>
             <div><span id="min"></span><br>MIN</div>
+            <div><span id="seg"></span><br>SEG</div>
         </div>
 
         <p class="footer">LA INVITACIÓN FORMAL LLEGARÁ PRONTO</p>
@@ -214,17 +223,27 @@ background: linear-gradient(135deg, #f8f5f0, #eae3d9);
 <script>
 const fecha = new Date("October 10, 2026 18:00:00").getTime();
 
+const formatear = (num) => num.toString().padStart(2, '0');
+
 setInterval(() => {
     const ahora = new Date().getTime();
     const diferencia = fecha - ahora;
 
+    if (diferencia < 0) {
+        document.querySelector(".contador").innerHTML = "¡Hoy es el gran día! 💍";
+        return;
+    }
+
     const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
     const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
-    document.getElementById("dias").innerHTML = dias;
-    document.getElementById("horas").innerHTML = horas;
-    document.getElementById("min").innerHTML = minutos;
+    document.getElementById("dias").innerHTML = formatear(dias);
+    document.getElementById("horas").innerHTML = formatear(horas);
+    document.getElementById("min").innerHTML = formatear(minutos);
+    document.getElementById("seg").innerHTML = formatear(segundos);
+
 }, 1000);
 </script>
 
