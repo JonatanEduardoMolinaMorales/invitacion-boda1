@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Save the Date</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Montserrat&display=swap" rel="stylesheet">
+
+<style>
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+background: linear-gradient(135deg, #f8f5f0, #eae3d9);
+    background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    background-blend-mode: multiply;
+}
+
+/* ================= PORTADA ================= */
+.hero {
+    height: 100vh;
+    background-image: url('img/foto.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* 🔥 agregado */
+}
+
+/* 🔥 TEXTO ARRIBA */
+.save-date {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    z-index: 10;
+}
+
+.save-date h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 45px;
+    letter-spacing: 5px;
+    margin: 0;
+    color: white;
+
+    /* ✨ sombra elegante */
+    text-shadow:
+        0px 2px 6px rgba(0,0,0,0.6),
+        0px 0px 15px rgba(255,255,255,0.3);
+}
+.save-date::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 2px;
+    background: white;
+    margin: 10px auto 0;
+    opacity: 0.8;
+}
+.overlay {
+    text-align: center;
+    color: white;
+}
+
+.overlay h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    letter-spacing: 2px;
+}
+
+.scroll {
+    position: absolute;
+    bottom: 30px;
+    color: white;
+    font-size: 14px;
+    letter-spacing: 3px;
+}
+
+/* ================= SEGUNDA PANTALLA ================= */
+.container {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    background: #f4f1ec;
+    padding: 20px;
+}
+
+/* IZQUIERDA */
+.left {
+    text-align: right;
+}
+
+.left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    margin: 0;
+}
+
+.and {
+    color: #b59b72;
+    font-size: 40px;
+}
+
+/* LINEA */
+.line {
+    width: 2px;
+    height: 250px;
+    background: #b59b72;
+}
+
+/* DERECHA */
+.right {
+    max-width: 300px;
+}
+
+.small {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: gray;
+}
+
+.fecha {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+.lugar {
+    font-style: italic;
+    color: gray;
+}
+
+/* CONTADOR */
+.contador {
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.contador div {
+    text-align: center;
+}
+
+.contador span {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.footer {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: gray;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= PORTADA ================= -->
+<section class="hero">
+
+    <!-- 🔥 TEXTO ARRIBA -->
+    <div class="save-date">
+        <h1>SAVE THE DATE</h1>
+    </div>
+
+    <!-- TUS IMÁGENES (NO SE TOCAN) -->
+    <img src="img/foto.jpeg">
+    <img src="img/foto.jpeg">
+    <img src="img/foto.jpeg">
+
+    <div class="overlay">
+        <h1></h1>
+    </div>
+
+    <div class="scroll">DESLIZA ↓</div>
+</section>
+
+<!-- ================= SEGUNDA SECCIÓN ================= -->
+<section class="container">
+
+    <div class="left">
+        <h1>Mónica</h1>
+        <div class="and">&</div>
+        <h1>Alejandro</h1>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="right">
+        <p class="small">¡RECERVA LA FECHA!</p>
+
+        <p class="fecha">10 · Octubre · 2026</p>
+        <p class="lugar">Ciudad de Guatemala </p>
+
+        <div class="contador">
+            <div><span id="dias"></span><br>DÍAS</div>
+            <div><span id="horas"></span><br>HORAS</div>
+            <div><span id="min"></span><br>MIN</div>
+        </div>
+
+        <p class="footer">LA INVITACIÓN FORMAL LLEGARÁ PRONTO</p>
+    </div>
+
+</section>
+
+<script>
+const fecha = new Date("October 10, 2026 18:00:00").getTime();
+
+setInterval(() => {
+    const ahora = new Date().getTime();
+    const diferencia = fecha - ahora;
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById("dias").innerHTML = dias;
+    document.getElementById("horas").innerHTML = horas;
+    document.getElementById("min").innerHTML = minutos;
+}, 1000);
+</script>
+
+</body>
+</html>
